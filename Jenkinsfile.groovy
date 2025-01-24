@@ -14,7 +14,7 @@ node(){
     withFileParameter('FILE') {
     stage("Unzip"){
         sh """
-            unzip -o "${FILE}" -d "${Unzipped}"
+            unzip -o "${FILE}" -d "${DIR}"
         """
         }
     }
