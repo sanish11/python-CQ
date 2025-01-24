@@ -1,5 +1,4 @@
 node(){
-    deleteDir()
     echo "Workspace cleaned. Checking contents:"
     sh "ls -la"
     properties([
