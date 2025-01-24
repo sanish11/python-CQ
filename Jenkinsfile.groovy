@@ -1,4 +1,7 @@
 node(){
+    environment{
+        DIR = 'unzipped'
+    }
     echo "Workspace cleaned. Checking contents:"
     sh "ls -la"
     properties([
@@ -11,7 +14,7 @@ node(){
     withFileParameter('FILE') {
     stage("Unzip"){
         sh """
-            unzip -o "${FILE}" -d "${WORKSPACE}/unzipped"
+            unzip -o "${FILE}" -d "${Unzipped}"
         """
         }
     }
