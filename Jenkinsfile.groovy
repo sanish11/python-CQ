@@ -3,7 +3,7 @@ node(){
         DIR = 'unzipped'
     }
     echo "Workspace cleaned. Checking contents:"
-    sh "ls -la"
+   
     properties([
         parameters([
             base64File(name: 'FILE', description: 'Upload a file'),
