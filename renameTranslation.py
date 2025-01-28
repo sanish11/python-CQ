@@ -27,6 +27,9 @@ def process_files_with_regex(input_directory, output_directory):
                     # Remove comments if present
                     if value_content.startswith("<!--") and value_content.endswith("-->"):
                         value_content = value_content[4:-3].strip()
+                    value_content = value_content.replace("[Deprecated]", "").strip()
+                    if value_content.endswith("]"):
+                        value_content = value_content.rstrip("]")
                     # Append the language code
                     updated_value = f"{value_content} {language_code}" if value_content else language_code
                     return f"<value>{updated_value}</value>"
