@@ -56,8 +56,8 @@ def process_files_with_regex(input_directory, output_directory):
                 print(f"Error processing {filename}: {e}")
 
 # Input and output directories
-input_directory = "./ada/objectTranslation/"
-output_directory = "./ada/objectTranslation/"
+input_directory = "./ada/objectTranslations/"
+output_directory = "./ada/objectTranslations/"
 
 # Run the script
 process_files_with_regex(input_directory, output_directory)
