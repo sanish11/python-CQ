@@ -20,20 +20,29 @@ def process_files_with_regex(input_directory, output_directory):
                 with open(input_path, 'r', encoding='utf-8') as file:
                     content = file.read()
 
-                # Regex to find and process <value> tags
                 def replace_value_tag(match):
-                    """Update <value> tags by appending the language code."""
+                    """Update <value> tags by appending the language code if not already present."""
                     value_content = match.group(1).strip()
+
                     # Remove comments if present
                     if value_content.startswith("<!--") and value_content.endswith("-->"):
                         value_content = value_content[4:-3].strip()
+
+                    # Remove [Deprecated] if it exists
                     value_content = value_content.replace("[Deprecated]", "").strip()
+
+                    # Remove the trailing ']' if it exists
                     if value_content.endswith("]"):
                         value_content = value_content.rstrip("]")
-                    # Append the language code
-                    updated_value = f"{value_content} {language_code}" if value_content else language_code
-                    return f"<value>{updated_value}</value>"
-                    
+
+                    # Append the language code only if it is not already present
+                    if language_code not in value_content:
+                        updated_value = f"{value_content} {language_code}" if value_content else language_code
+                    else:
+                        updated_value = value_content  # No need to append if language code is already in the value
+
+                    return f"<value>{updated_value}</value>"  # Ensure this returns the correct value
+
                 def remove_all_comments(match):
                     """Remove comments for all fields except <value> tags."""
                     tag_name = match.group(1)
@@ -42,12 +51,11 @@ def process_files_with_regex(input_directory, output_directory):
                     if tag_content.startswith("<!--") and tag_content.endswith("-->"):
                         tag_content = tag_content[4:-3].strip()
                     return f"<{tag_name}>{tag_content}</{tag_name}>"
-                
 
                 # Apply regex to update <value> tags
                 updated_content = re.sub(r"<value>(.*?)</value>", replace_value_tag, content, flags=re.DOTALL)
-                
-                #Apply update to each row
+
+                # Apply update to each row for other tags
                 updated_content = re.sub(r"<(\w+)>(.*?)</\1>", remove_all_comments, updated_content, flags=re.DOTALL)
 
                 # Write the updated content to the output file
@@ -59,8 +67,8 @@ def process_files_with_regex(input_directory, output_directory):
                 print(f"Error processing {filename}: {e}")
 
 # Input and output directories
-input_directory = "./ada/objectTranslations/"
-output_directory = "./ada/objectTranslations/"
+input_directory = "./Test/testy"
+output_directory = "./Test/testy"
 
 # Run the script
 process_files_with_regex(input_directory, output_directory)
